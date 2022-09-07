@@ -20,10 +20,22 @@ function agregarTweet (e) {
     // Validación
     if (tweet.length === 0) {
         mostrarError('El tweet no puede estar vacío.')
-    } else {
-        console.log("tiene algo.")
+        return; // termino la función, p' que no siga leyendo lo que sigue.
     }
     
+    // Meto los mensajes en el array
+    const tweetObj = {
+        id: Date.now(), // Date.now() sirve para identificar básicamente. Los números son una cuenta de milisegundos, que empezaron en 1970 aprox. Por lo tanto no se puede volver a repetir.
+        tweet // <- es = tweet : tweet
+    }
+    tweets = [...tweets, tweetObj]
+
+    // Creo el HTML
+    crearHTML();
+
+    // Reinicio el formulario.
+    formulario.reset();
+
 }
 
 // Función reutilizable para mostrar mensajes de error.
@@ -46,4 +58,24 @@ function mostrarError (mensaje) {
 function eliminarError() {
     const elHijo = contenido.children[1];
     elHijo.remove();
+}
+
+function crearHTML () {
+
+    limpiarHTML();
+
+    if (tweets.length > 0) { // si el arreglo tiene algo.
+        tweets.forEach( elemento => {
+            const item = document.createElement('LI');
+            item.textContent = elemento.tweet;
+            listaTweets.appendChild(item)
+        })
+    }
+
+}
+
+function limpiarHTML () {
+    while (listaTweets.firstChild) {
+        listaTweets.removeChild(listaTweets.firstChild)
+    }
 }
