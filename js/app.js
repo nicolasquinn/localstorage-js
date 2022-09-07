@@ -7,6 +7,12 @@ let tweets = [];
 // Eventos
 eventListeners();
 function eventListeners () {
+
+    document.addEventListener('DOMContentLoaded', () => {
+        tweets = JSON.parse(localStorage.getItem('tweets')) || []; // Si hay almacenados datos en el LS entonces obteneme dichos y cargamelos, sino, cargarme el arreglo vacio de tweets.
+        crearHTML();
+    });
+
     formulario.addEventListener('submit', agregarTweet);
 }
 
@@ -72,6 +78,8 @@ function crearHTML () {
         })
     }
 
+    sincronizarStorage();
+
 }
 
 function limpiarHTML () {
@@ -79,3 +87,8 @@ function limpiarHTML () {
         listaTweets.removeChild(listaTweets.firstChild)
     }
 }
+
+function sincronizarStorage () {
+    localStorage.setItem('tweets', JSON.stringify(tweets));
+}
+
